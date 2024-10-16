@@ -24,6 +24,12 @@ export default function AdminPage() {
     router.push("/login");
   };
 
+  const handleDeleteUser = (index: number) => {
+    const updatedUsers = users.filter((_, i) => i !== index);
+    setUsers(updatedUsers);
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-200 to-blue-200 py-8">
       <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-2xl">
@@ -38,6 +44,7 @@ export default function AdminPage() {
                 <tr className="text-gray-700 text-sm uppercase">
                   <th className="py-4 px-6 border-b text-left">Username</th>
                   <th className="py-4 px-6 border-b text-left">Email</th>
+                  <th className="py-4 px-6 border-b text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,14 +55,20 @@ export default function AdminPage() {
                   >
                     <td className="py-3 px-6 border-b">{user.username}</td>
                     <td className="py-3 px-6 border-b">{user.email}</td>
+                    <td className="py-3 px-6 border-b">
+                      <button
+                        onClick={() => handleDeleteUser(index)}
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p className="text-center text-gray-600">
-              No users registered yet.
-            </p>
+            <p className="text-center text-gray-600">No users registered yet.</p>
           )}
         </div>
 
@@ -69,3 +82,4 @@ export default function AdminPage() {
     </div>
   );
 }
+
